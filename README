@@ -1,0 +1,15 @@
+COLMAPを用いてDenseのPLYファイルを作成，MVSにより深度マップを出力する
+品質はdata/autoInDocker.py中の--quality を{low,high,extreme}から指定
+出力される深度マップはMVSにより出てきたもの（恐らく対応点付けがうまく行ったもの）のみ
+MVSによる深度マップ出力にはDenseな再構成が必要
+
+
+必要なファイル
+DIRNAME/imgs 多視点画像の入ったディレクトリ
+
+やっていることは以下
+1.Docker環境を作成する
+2.ワークスペースのディレクトリを作成する
+3.Docker環境でautomatic_reconstructionを行う(Dense=1)
+4.2.により作成したDepthマップ及び法線マップのレンダリングを行い，画像を保存する
+

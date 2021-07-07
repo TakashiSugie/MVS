@@ -28,11 +28,11 @@ RUN apt-get -y install \
     libsuitesparse-dev
 RUN git clone https://github.com/ceres-solver/ceres-solver.git --branch 1.14.0
 RUN cd ceres-solver && \
-	mkdir build && \
-	cd build && \
-	cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF && \
-	make -j4 && \
-	make install
+    mkdir build && \
+    cd build && \
+    cmake .. -DBUILD_TESTING=OFF -DBUILD_EXAMPLES=OFF && \
+    make -j4 && \
+    make install
 
 # Build and install COLMAP
 
@@ -44,9 +44,13 @@ RUN cd ceres-solver && \
 RUN git clone https://github.com/colmap/colmap.git #--branch 3.6
 
 RUN cd colmap && \
-	git checkout dev && \
-	mkdir build && \
-	cd build && \
-	cmake .. && \
-	make -j4 && \
-	make install
+    git checkout dev && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j4 && \
+    make install
+
+RUN apt install -y python3
+
+# CMD ["python3", "auto.py"]
