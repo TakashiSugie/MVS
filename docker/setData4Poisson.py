@@ -8,8 +8,8 @@ import subprocess
 import glob
 import myMiDaS.myRun as myRun
 
-srcDirPath = "../data/seiri"
-# srcDirPath = "../data"
+# srcDirPath = "../data/seiri"
+srcDirPath = "../data"
 
 
 # DIR_NAME = "aquarium"
