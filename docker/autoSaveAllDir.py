@@ -14,7 +14,6 @@ def saveDepthOnly(data):
     imgPathList = glob.glob("../data/%s/out/stereo/depth_maps/*.bin" % DIR_NAME)
     # imgPathList = glob.glob("../data/%s/wrk/dense/0/stereo/depth_maps/*.bin" % DIR_NAME)
     commandList = addAllDepthPath(commandList, imgPathList)
-    print(DIR_NAME)
     doCommand(commandList=commandList, imgPathList=imgPathList)
 
 
@@ -56,6 +55,7 @@ def addAllDepthPath(commandList, imgPathList):
 
 
 def doCommand(commandList, imgPathList):
+    print(commandList)
     for command in commandList:
         commandElement = command.split(" ")
         Flag = subprocess.call(commandElement)
@@ -79,17 +79,28 @@ def doCommand(commandList, imgPathList):
 
 
 def main():
-    DataList = glob.glob("../data/*/")
+    DataList = glob.glob("../data/*/images")
     # print(DataList)
     # TEMP_NAME=DataList
     global DIR_NAME
     for DataName in DataList:
-        DIR_NAME = DataName.split("/")[2]
+        # DIR_NAME = DataName.split("/images")[2]
+        # print("test")
+        print(DataName)
+        DataName = DataName.strip("images").split("/")[2]
+        # print(DataName)
+        # dirName = os.path.basename(DataName)
+        dirName = DataName
+        print(dirName)
+        if dirName == "__pycache__":
+            continue
+        DIR_NAME = dirName
         print(DIR_NAME)
+        print("testtest")
         saveDepth()
 
 
 if len(argv) == 1:
     main()
 elif len(argv) == 2:
-    saveDepthOnly(data="bridge")
+    saveDepthOnly(data="aquarium")

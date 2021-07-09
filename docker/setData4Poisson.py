@@ -8,10 +8,15 @@ import subprocess
 import glob
 import myMiDaS.myRun as myRun
 
-DIR_NAME = "aquarium"
+srcDirPath = "../data/seiri"
+# srcDirPath = "../data"
+
+
+# DIR_NAME = "aquarium"
+DIR_NAME = "bedroom"
 imgName = "0001"
 depthPath = "%s_geometric.png" % imgName
-setDataPath = "../data/%s/4poisson" % (DIR_NAME)
+setDataPath = "%s/%s/4poisson" % (srcDirPath, DIR_NAME)
 
 
 def doCommand(commandList=[]):
@@ -38,11 +43,12 @@ def doCommandRun(commandList=[]):
 
 
 def makeDataDir():
+    print(setDataPath)
     os.makedirs(setDataPath, exist_ok=True)
 
 
 def setDispMVS():
-    depthPath = "../data/%s/depth/" % (DIR_NAME)
+    depthPath = "%s/%s/depth/" % (srcDirPath, DIR_NAME)
     depthPath = os.path.join(depthPath, imgName + "_geometric.png")
     # print(depthPath)
     depthMVS = cv2.imread(depthPath, 0)
@@ -64,16 +70,20 @@ def setDispMVS():
 def setDispMono():
     commandList = [
         # "python /home/takashi/Desktop/study/M2/poisson/MiDaS-master/myRun.py",
-        "cp ../data/%s/dispMono/%s.pfm %s/dispMono.pfm"
-        % (DIR_NAME, imgName, setDataPath),
-        "cp ../data/%s/dispMono/%s.png %s/dispMono.png"
-        % (DIR_NAME, imgName, setDataPath),
+        "cp %s/%s/dispMono/%s.pfm %s/dispMono.pfm"
+        % (srcDirPath, DIR_NAME, imgName, setDataPath),
+        "cp %s/%s/dispMono/%s.png %s/dispMono.png"
+        % (srcDirPath, DIR_NAME, imgName, setDataPath),
     ]
     doCommand(commandList=commandList)
 
 
 def setColorImg():
-    imgPath = glob.glob("../data/%s/images/%s.*" % (DIR_NAME, imgName))
+    imgPath = glob.glob(
+        "%s/%s/wrk/dense/0/images/%s.*" % (srcDirPath, DIR_NAME, imgName)
+    )
+    # imgPath = glob.glob("../data/%s/image_undistort/images/%s.*" % (DIR_NAME, imgName))
+    # imgPath = glob.glob("../data/%s/images/%s.*" % (DIR_NAME, imgName))
     colorImg = cv2.imread(imgPath[0])
     print("%s/left.png" % (setDataPath))
     cv2.imwrite("%s/left.png" % (setDataPath), colorImg)
@@ -81,13 +91,17 @@ def setColorImg():
 
 def main():
     global imgName, setDataPath, depthPath
-    imgPathList = glob.glob("../data/%s/depth/*_geometric.png" % (DIR_NAME))
+    imgPathList = glob.glob("%s/%s/depth/*_geometric.png" % (srcDirPath, DIR_NAME))
+    print(imgPathList)
+    print("%s/%s/depth/*_geometric.png" % (srcDirPath, DIR_NAME))
+
     for imgPath in imgPathList:
         tempName = os.path.basename(imgPath).strip("_geometric.png")
         imgName = tempName
         depthPath = "%s_geometric.png" % imgName
-        setDataPath = "../data/%s/4poisson/%s" % (DIR_NAME, imgName)
+        setDataPath = "%s/%s/4poisson/%s" % (srcDirPath, DIR_NAME, imgName)
         makeDataDir()
+
         setColorImg()
         setDispMono()
         setDispMVS()

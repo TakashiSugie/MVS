@@ -53,4 +53,4 @@ RUN cd colmap && \
 
 RUN apt install -y python3
 
-# CMD ["python3", "auto.py"]
+CMD ["python3", "auto.py"]
