@@ -1,20 +1,17 @@
 import subprocess
 import glob
 import os
-import sys
 
-argv = sys.argv
 DIR_NAME = "bridge"
+# srcDir="../data/"
 
-
-def saveDepthOnly(data):
-    global DIR_NAME
-    DIR_NAME = data
-    commandList = []
-    imgPathList = glob.glob("../data/%s/out/stereo/depth_maps/*.bin" % DIR_NAME)
-    # imgPathList = glob.glob("../data/%s/wrk/dense/0/stereo/depth_maps/*.bin" % DIR_NAME)
-    commandList = addAllDepthPath(commandList, imgPathList)
-    doCommand(commandList=commandList, imgPathList=imgPathList)
+# def saveDepthOnly(data):
+#     global DIR_NAME
+#     DIR_NAME = data
+#     commandList = []
+#     imgPathList = glob.glob("../data/%s/out/stereo/depth_maps/*.bin" % DIR_NAME)
+#     commandList = addAllDepthPath(commandList, imgPathList)
+#     doCommand(commandList=commandList, imgPathList=imgPathList)
 
 
 def saveDepth():
@@ -63,44 +60,32 @@ def doCommand(commandList, imgPathList):
             print("this status", Flag)
             raise Exception(ValueError)
 
-    if not len(imgPathList):
-        imgPathList = glob.glob(
-            "../data/%s/wrk/dense/0/stereo/depth_maps/*.bin" % DIR_NAME
-        )
-        commandList = []
-        commandList = addAllDepthPath(commandList, imgPathList)
-        for command in commandList:
-            commandElement = command.split(" ")
-            Flag = subprocess.call(commandElement)
-            if Flag:
-                print("this status", Flag)
-                raise Exception(ValueError)
+    # if not len(imgPathList):
+    #     imgPathList = glob.glob(
+    #         "../data/%s/wrk/dense/0/stereo/depth_maps/*.bin" % DIR_NAME
+    #     )
+    #     commandList = []
+    #     commandList = addAllDepthPath(commandList, imgPathList)
+    #     for command in commandList:
+    #         commandElement = command.split(" ")
+    #         Flag = subprocess.call(commandElement)
+    #         if Flag:
+    #             print("this status", Flag)
+    #             raise Exception(ValueError)
     return
 
 
-def main():
-    DataList = glob.glob("../data/*/images")
-    # print(DataList)
-    # TEMP_NAME=DataList
-    global DIR_NAME
-    for DataName in DataList:
-        # DIR_NAME = DataName.split("/images")[2]
-        # print("test")
-        print(DataName)
-        DataName = DataName.strip("images").split("/")[2]
-        # print(DataName)
-        # dirName = os.path.basename(DataName)
-        dirName = DataName
-        print(dirName)
-        if dirName == "__pycache__":
-            continue
-        DIR_NAME = dirName
-        print(DIR_NAME)
-        print("testtest")
-        saveDepth()
+def saveMVSDepth():
+    # DataList = glob.glob("../data/*/images")
+    # global DIR_NAME
+    # for DataName in DataList:
+    #     DataName = DataName.strip("images").split("/")[2]
+    #     dirName = DataName
+    #     if dirName == "__pycache__":
+    #         continue
+    #     DIR_NAME = dirName
+    #     saveDepth()
+    saveDepth()
 
 
-if len(argv) == 1:
-    main()
-elif len(argv) == 2:
-    saveDepthOnly(data="aquarium")
+saveMVSDepth()
