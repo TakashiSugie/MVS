@@ -146,7 +146,7 @@ def poisson():
     b = (b - offset) / scale
     lap = 4 * np.double(cp.deepcopy(disp_mono))
     lap = lap - np.roll(disp_mono, (+0, +1), axis=(0, 1))
-    lap = lap - np.roll(disp_mono, (+1, +0), axis=(0, 1))D
+    lap = lap - np.roll(disp_mono, (+1, +0), axis=(0, 1))
     disp_blend = np.double(cp.deepcopy(disp_stereo))
     disp_blend[mask_null] = cp.deepcopy(disp_mono[mask_null])
 
